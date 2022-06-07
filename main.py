@@ -35,3 +35,25 @@ bike1.rect.x, bike1.rect.y = 200, 730 # Initial coords
 
 bike2 = Bike() # Bike 2
 bike2.rect.x, bike2.rect.y = 800, 730 # Initial coords
+
+allSprites = pygame.sprite.Group()
+allSprites.add(bike1, bike2)
+
+def refresh(): # Redraw the screen
+    print('unfinished')
+
+gameIsDone = False
+
+while not gameIsDone:
+    pygame.time.delay(100) # Millisecond delay
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: # Exit
+            gameIsDone = True
+
+    key = pygame.key.get_pressed()
+
+    refresh()
+
+
+pygame.quit()
