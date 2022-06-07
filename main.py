@@ -18,6 +18,7 @@ pygame.display.set_caption('TRON') # Window title
 # Set some colour variables
 white = (255, 255, 255)
 black = (0, 0, 0)
+blue, red = (95, 250, 234), (250, 83, 67) # Teams
 
 # Bike class
 class Bike(pygame.sprite.Sprite):
