@@ -1,6 +1,6 @@
 '''
 Name: Rayyan Aamir
-Date: June 6, 2022
+Date: June 7, 2022
 Program: TRON using Pygame
 '''
 
@@ -32,16 +32,29 @@ class Bike(pygame.sprite.Sprite):
 
 # Create the bikes
 bike1 = Bike() # Bike 1
-bike1.rect.x, bike1.rect.y = 200, 730 # Initial coords
+bike1.rect.x, bike1.rect.y = 900, 730 # Initial coords
 
 bike2 = Bike() # Bike 2
-bike2.rect.x, bike2.rect.y = 800, 730 # Initial coords
+bike2.rect.x, bike2.rect.y = 100, 730 # Initial coords
+
+bikeSpeed = 10
 
 allSprites = pygame.sprite.Group()
 allSprites.add(bike1, bike2)
 
 def refresh(): # Redraw the screen
-    print('unfinished')
+  # Background
+  window.fill(black)
+
+  # Title
+  font = pygame.font.SysFont('Comic Sans MS', 30)
+  title = font.render('TRON', False, white)
+  titleRect = title.get_rect()
+  titleRect.center = (500, 25)
+
+  window.blit(title, titleRect)
+  allSprites.draw(window)
+  pygame.display.update()
 
 gameIsDone = False
 
@@ -53,6 +66,27 @@ while not gameIsDone:
             gameIsDone = True
 
     key = pygame.key.get_pressed()
+
+    # Player 1 uses arrow keys
+    if key[pygame.K_UP]: # P1 up
+        bike1.rect.y -= bikeSpeed
+    if key[pygame.K_DOWN]: # P1 down
+        bike1.rect.y += bikeSpeed
+    if key[pygame.K_RIGHT]: # P1 right
+        bike1.rect.x += bikeSpeed
+    if key[pygame.K_LEFT]: # P1 left
+        bike1.rect.x -= bikeSpeed
+
+    # Player 2 uses ASWD
+    if key[pygame.K_w]: # P2 up
+        bike2.rect.y -= bikeSpeed
+    if key[pygame.K_s]: # P2 down
+        bike2.rect.y += bikeSpeed
+    if key[pygame.K_d]: # P2 right
+        bike2.rect.x += bikeSpeed
+    if key[pygame.K_a]: # P2 left
+        bike2.rect.x -= bikeSpeed
+
 
     refresh()
 
