@@ -1,6 +1,6 @@
 '''
 Name: Rayyan Aamir
-Date: June 7, 2022
+Date: June 20, 2022
 Program: TRON using Pygame
 '''
 
@@ -13,7 +13,7 @@ pygame.init() # Initialize
 
 # Create window
 window = pygame.display.set_mode((1000, 750)) # Window dimensions
-pygame.display.set_caption('TRON') # Window title
+#pygame.display.set_caption('TRON') # Window title
 
 # Set some colour variables
 white = (255, 255, 255)
@@ -26,16 +26,18 @@ class Bike(pygame.sprite.Sprite):
       pygame.sprite.Sprite.__init__(self)
 
       self.image = pygame.Surface([20, 20]) # Bike dimensions
-      self.image.fill(white) # Bike colour
       self.rect = self.image.get_rect() # Hitbox
       self.speed = 10 # Speed
+      self.points = 0 # Rounds won
 
 # Create the bikes
 bike1 = Bike() # Bike 1
-bike1.rect.x, bike1.rect.y = 900, 730 # Initial coords
+bike1.image.fill(blue)
+bike1.rect.x, bike1.rect.y = 500, 100 # Initial coords
 
 bike2 = Bike() # Bike 2
-bike2.rect.x, bike2.rect.y = 100, 730 # Initial coords
+bike2.image.fill(red)
+bike2.rect.x, bike2.rect.y = 500, 700 # Initial coords
 
 bikeSpeed = 10
 
@@ -47,10 +49,22 @@ def refresh(): # Redraw the screen
   window.fill(black)
 
   # Title
-  font = pygame.font.SysFont('Comic Sans MS', 30)
+  font = pygame.font.SysFont('lato', 50)
   title = font.render('TRON', False, white)
   titleRect = title.get_rect()
   titleRect.center = (500, 25)
+
+  # Bike1 wins
+  bike1Score = font.render(str(bike1.points), False, blue)
+  bike1Rect = bike1Score.get_rect()
+  bike1Rect.center = (50, 50)
+  window.blit(bike1Score, bike1Rect)
+
+  # Bike2 wins
+  bike2Score = font.render(str(bike2.points), False, red)
+  bike2Rect = bike2Score.get_rect()
+  bike2Rect.center = (50, 700)
+  window.blit(bike2Score, bike2Rect)
 
   window.blit(title, titleRect)
   allSprites.draw(window)
@@ -59,7 +73,7 @@ def refresh(): # Redraw the screen
 gameIsDone = False
 
 while not gameIsDone:
-    pygame.time.delay(100) # Millisecond delay
+    pygame.time.delay(50) # Millisecond delay
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Exit
