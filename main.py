@@ -1,6 +1,6 @@
 '''
 Name: Rayyan Aamir
-Date: June 20, 2022
+Date: June 21, 2022
 Program: TRON using Pygame
 '''
 
@@ -91,7 +91,7 @@ while not gameIsDone:
     if key[pygame.K_LEFT]: # P1 left
         bike1.rect.x -= bikeSpeed
 
-    # Player 2 uses ASWD
+    # Player 2 uses WASD
     if key[pygame.K_w]: # P2 up
         bike2.rect.y -= bikeSpeed
     if key[pygame.K_s]: # P2 down
@@ -101,8 +101,15 @@ while not gameIsDone:
     if key[pygame.K_a]: # P2 left
         bike2.rect.x -= bikeSpeed
 
+    # Bikes themselves collide
+    if bike1.rect.colliderect(bike2.rect):
+        bike1.rect.x, bike1.rect.y = 500, 100 # Initial coords
+        bike2.rect.x, bike2.rect.y = 500, 700 # Initial coords
+
+
 
     refresh()
+
 
 
 pygame.quit()
