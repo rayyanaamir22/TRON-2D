@@ -44,6 +44,13 @@ bikeSpeed = 10
 allSprites = pygame.sprite.Group()
 allSprites.add(bike1, bike2)
 
+# Set default bike directions
+x1Change = 0 # Bike 1 is going straight down
+y1Change = bikeSpeed
+
+x2Change = 0 # Bike 2 is going straight up
+y2Change = -bikeSpeed 
+
 def refresh(): # Redraw the screen
   # Background
   window.fill(black)
@@ -70,6 +77,7 @@ def refresh(): # Redraw the screen
   allSprites.draw(window)
   pygame.display.update()
 
+
 gameIsDone = False
 
 while not gameIsDone:
@@ -81,35 +89,54 @@ while not gameIsDone:
 
     key = pygame.key.get_pressed()
 
+    # The bikes are initially moving toward eachother. When the user presses a direction key, they will continue to move in that direction until a new direction is pressed.
+
     # Player 1 uses arrow keys
     if key[pygame.K_UP]: # P1 up
-        bike1.rect.y -= bikeSpeed
+        x1Change = 0
+        y1Change = -bikeSpeed
     if key[pygame.K_DOWN]: # P1 down
-        bike1.rect.y += bikeSpeed
+        x1Change = 0
+        y1Change = bikeSpeed
     if key[pygame.K_RIGHT]: # P1 right
-        bike1.rect.x += bikeSpeed
+        x1Change = bikeSpeed
+        y1Change = 0
     if key[pygame.K_LEFT]: # P1 left
-        bike1.rect.x -= bikeSpeed
+        x1Change = -bikeSpeed
+        y1Change = 0
+
+    bike1.rect.x += x1Change
+    bike1.rect.y += y1Change
 
     # Player 2 uses WASD
     if key[pygame.K_w]: # P2 up
-        bike2.rect.y -= bikeSpeed
+        x2Change = 0
+        y2Change = -bikeSpeed
     if key[pygame.K_s]: # P2 down
-        bike2.rect.y += bikeSpeed
+        x2Change = 0
+        y2Change = bikeSpeed
     if key[pygame.K_d]: # P2 right
-        bike2.rect.x += bikeSpeed
+        x2Change = bikeSpeed
+        y2Change = 0
     if key[pygame.K_a]: # P2 left
-        bike2.rect.x -= bikeSpeed
+        x2Change = -bikeSpeed
+        y2Change = 0
+
+    bike2.rect.x += x2Change
+    bike2.rect.y += y2Change
 
     # Bikes themselves collide
-    if bike1.rect.colliderect(bike2.rect):
-        bike1.rect.x, bike1.rect.y = 500, 100 # Initial coords
-        bike2.rect.x, bike2.rect.y = 500, 700 # Initial coords
+    if bike1.rect.colliderect(bike2.rect): # Considered a tie, no points awarded
+        # Reset initial coords for each bike
+        bike1.rect.x, bike1.rect.y = 500, 100 
+        bike2.rect.x, bike2.rect.y = 500, 700 
 
-
+        # Reset bike directions for new round
+        x1Change = 0
+        y1Change = bikeSpeed
+        x2Change = 0
+        y2Change = -bikeSpeed
 
     refresh()
-
-
 
 pygame.quit()
