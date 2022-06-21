@@ -125,12 +125,38 @@ while not gameIsDone:
     bike2.rect.x += x2Change
     bike2.rect.y += y2Change
 
+    # bike1 hits wall
+    if bike1.rect.x > 1000 or bike1.rect.x < 0 or bike1.rect.y > 750 or bike1.rect.y < 0:
+        # Reset initial coords for each bike
+        bike1.rect.x, bike1.rect.y = 500, 100 
+        bike2.rect.x, bike2.rect.y = 500, 700 
+        # Reset bike directions for new round
+        x1Change = 0
+        y1Change = bikeSpeed
+        x2Change = 0
+        y2Change = -bikeSpeed
+
+        bike2.points += 1 # bike2 wins the round
+
+    # bike2 hits wall
+    if bike2.rect.x > 1000 or bike2.rect.x < 0 or bike2.rect.y > 750 or bike2.rect.y < 0:
+        # Reset initial coords for each bike
+        bike1.rect.x, bike1.rect.y = 500, 100 
+        bike2.rect.x, bike2.rect.y = 500, 700 
+        # Reset bike directions for new round
+        x1Change = 0
+        y1Change = bikeSpeed
+        x2Change = 0
+        y2Change = -bikeSpeed
+
+        bike1.points += 1 # bike1 wins the round
+    
+
     # Bikes themselves collide
     if bike1.rect.colliderect(bike2.rect): # Considered a tie, no points awarded
         # Reset initial coords for each bike
         bike1.rect.x, bike1.rect.y = 500, 100 
         bike2.rect.x, bike2.rect.y = 500, 700 
-
         # Reset bike directions for new round
         x1Change = 0
         y1Change = bikeSpeed
