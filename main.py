@@ -34,6 +34,8 @@ class Bike(pygame.sprite.Sprite):
 bike1 = Bike() # Bike 1
 bike1.image.fill(blue)
 bike1.rect.x, bike1.rect.y = 500, 100 # Initial coords
+bike1Ribbon = [] # Store the past coordinates for the light ribbon
+bike1RibbonLength = 1
 
 bike2 = Bike() # Bike 2
 bike2.image.fill(red)
@@ -61,13 +63,13 @@ def refresh(): # Redraw the screen
   titleRect = title.get_rect()
   titleRect.center = (500, 25)
 
-  # Bike1 wins
+  # Bike1 score
   bike1Score = font.render(str(bike1.points), False, blue)
   bike1Rect = bike1Score.get_rect()
   bike1Rect.center = (50, 50)
   window.blit(bike1Score, bike1Rect)
 
-  # Bike2 wins
+  # Bike2 score
   bike2Score = font.render(str(bike2.points), False, red)
   bike2Rect = bike2Score.get_rect()
   bike2Rect.center = (50, 700)
@@ -107,6 +109,29 @@ while not gameIsDone:
 
     bike1.rect.x += x1Change
     bike1.rect.y += y1Change
+    bike1Head = []
+    bike1Head.append(bike1.rect.x)
+    bike1Head.append(bike1.rect.y)
+    bike1Ribbon.append(bike1Head)
+    if len(bike1Ribbon) > bike1RibbonLength:
+        bike1Ribbon.pop(0)
+
+    for i in bike1Ribbon[:-1]:
+        if i == bike1Head:
+            # Reset initial coords for each bike
+            bike1.rect.x, bike1.rect.y = 500, 100 
+            bike2.rect.x, bike2.rect.y = 500, 700 
+            # Reset bike directions for new round
+            x1Change = 0
+            y1Change = bikeSpeed
+            x2Change = 0
+            y2Change = -bikeSpeed
+
+            bike2.points += 1 # bike2 wins the round
+    
+    for i in bike1Ribbon:
+        pygame.draw.rect(window, blue, [i[0], i[1], 20, 20])
+
 
     # Player 2 uses WASD
     if key[pygame.K_w]: # P2 up
