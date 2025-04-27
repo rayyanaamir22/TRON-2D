@@ -45,34 +45,34 @@ class LightCycleBattle:
             self.game_over = True
             return
 
-        # Calculate next positions for all active cycles
+        # calculate next positions for all active cycles
         next_positions = defaultdict(list)
         for cycle in active_cycles:
             next_pos = (cycle.rect.x + cycle.dx, cycle.rect.y + cycle.dy)
             next_positions[next_pos].append(cycle)
 
-        # Check for collisions
+        # check for collisions
         for cycle in active_cycles:
             next_pos = (cycle.rect.x + cycle.dx, cycle.rect.y + cycle.dy)
             if self.grid.is_occupied(next_pos):
-                # Collision with ribbon or boundary
+                # collision with ribbon or boundary
                 cycle.alive = False
             elif len(next_positions[next_pos]) > 1:
-                # Head-on collision with another cycle
+                # head-on collision with another cycle
                 for c in next_positions[next_pos]:
                     c.alive = False
 
-        # Move cycles that are still alive and update ribbons
+        # move cycles that are still alive and update ribbons
         for cycle in active_cycles:
             if cycle.alive:
-                # Add current position to ribbon and grid before moving
+                # add current position to ribbon and grid before moving
                 current_pos = (cycle.rect.x, cycle.rect.y)
                 self.grid.update_ribbon(current_pos, cycle.colour)
                 cycle.ribbon.append(current_pos)
-                # Move to next position
+                # move to next position
                 cycle.update_position()
 
-        # Check if game is over
+        # game over check
         active_cycles = [cycle for cycle in self.cycles if cycle.alive]
         if len(active_cycles) <= 1:
             self.game_over = True
@@ -86,12 +86,12 @@ class LightCycleBattle:
         Args:
             window (pygame.Surface): The Pygame window to draw on.
         """
-        window.fill((0, 0, 0))  # Black background
+        window.fill(black)  # black background
         for cycle in self.cycles:
             if cycle.alive:
                 cycle.draw_ribbon(window)
             else:
-                # Draw ribbon for crashed cycles up to their last position
+                # draw ribbon for crashed cycles up to their last position
                 if len(cycle.ribbon) > 1:
                     points = [(x + 10, y + 10) for x, y in cycle.ribbon]
                     pygame.draw.lines(window, cycle.colour, False, points, 3)
@@ -112,7 +112,7 @@ class LightCycleBattle:
         Args:
             keys (dict): Pygame keys state dictionary.
         """
-        # For now, hardcode controls for up to 2 players
+        # for now, hardcode controls for up to 2 players
         if len(self.cycles) >= 1:
             cycle = self.cycles[0]
             if cycle.alive:
@@ -143,7 +143,7 @@ class LightCycleBattle:
         """
         pygame.init()
         window = pygame.display.set_mode((self.grid.width, self.grid.height))
-        pygame.display.set_caption("TRON Arcade")
+        pygame.display.set_caption("TRON")
         clock = pygame.time.Clock()
 
         running = True
@@ -153,12 +153,12 @@ class LightCycleBattle:
                     running = False
                 elif event.type == pygame.KEYDOWN:
                     if self.game_over and event.key == pygame.K_r:
-                        # Reset the game on 'R' key press
+                        # reset the game on 'R' key press
                         self.game_over = False
                         self.winner = None
                         self.grid.clear()
                         for i, cycle in enumerate(self.cycles):
-                            # Reset positions and directions (example starting points)
+                            # reset positions and directions (example starting points)
                             x = 100 if i == 0 else 500
                             y = 100 if i == 0 else 500
                             dx = 10 if i == 0 else -10

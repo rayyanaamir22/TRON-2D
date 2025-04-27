@@ -13,7 +13,7 @@ class Grid:
         """
         self.width = width
         self.height = height
-        self.occupied = {}  # Dictionary mapping (x, y) tuples to colors
+        self.occupied = {}  # hashmap (x, y) tuples -> colours
 
     def is_within_bounds(self, position):
         """
@@ -50,7 +50,7 @@ class Grid:
             bool: True if occupied or out of bounds, False otherwise.
         """
         if not self.is_within_bounds(position):
-            return True  # Out of bounds is treated as occupied (causes crash)
+            return True  # out of bounds is treated as occupied (causes crash)
         return position in self.occupied
 
     def clear(self):
