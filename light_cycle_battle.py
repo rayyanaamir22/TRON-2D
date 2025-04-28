@@ -17,7 +17,8 @@ class LightCycleBattle:
             self,
             width, 
             height, 
-            cycles: list[LightCycle]
+            cycles: list[LightCycle],
+            fps: int = 10
         ) -> None:
         """
         Initialize a battle with a grid and a list of light cycles.
@@ -27,7 +28,7 @@ class LightCycleBattle:
             height (int): Height of the grid in pixels.
             cycles (list): List of LightCycle objects.
         """
-        self.fps = 10
+        self.fps = fps
         self.grid = Grid(width, height)
         self.cycles = cycles  # list of LightCycle objects
         self.game_over = False
@@ -41,42 +42,32 @@ class LightCycleBattle:
             return
 
         active_cycles = [cycle for cycle in self.cycles if cycle.alive]
-        if len(active_cycles) == 0:
+        if not active_cycles:
             self.game_over = True
             return
 
-        # calculate next positions for all active cycles
+        # Check next positions for collisions
         next_positions = defaultdict(list)
         for cycle in active_cycles:
             next_pos = (cycle.rect.x + cycle.dx, cycle.rect.y + cycle.dy)
             next_positions[next_pos].append(cycle)
 
-        # check for collisions
+        # Detect collisions
         for cycle in active_cycles:
             next_pos = (cycle.rect.x + cycle.dx, cycle.rect.y + cycle.dy)
-            if self.grid.is_occupied(next_pos):
-                # collision with ribbon or boundary
+            if self.grid.is_occupied(next_pos) or len(next_positions[next_pos]) > 1:
                 cycle.alive = False
-            elif len(next_positions[next_pos]) > 1:
-                # head-on collision with another cycle
-                for c in next_positions[next_pos]:
-                    c.alive = False
 
-        # move cycles that are still alive and update ribbons
+        # Update positions and ribbons for alive cycles
         for cycle in active_cycles:
             if cycle.alive:
-                # add current position to ribbon and grid before moving
-                current_pos = (cycle.rect.x, cycle.rect.y)
-                self.grid.update_ribbon(current_pos, cycle.colour)
-                cycle.ribbon.append(current_pos)
-                # move to next position
-                cycle.update_position()
+                cycle.update_position(self.grid)
 
-        # game over check
+        # Check game over condition
         active_cycles = [cycle for cycle in self.cycles if cycle.alive]
         if len(active_cycles) <= 1:
             self.game_over = True
-            if len(active_cycles) == 1:
+            if active_cycles:
                 self.winner = active_cycles[0]
 
     def draw(self, window):

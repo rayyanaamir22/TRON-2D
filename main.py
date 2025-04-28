@@ -2,14 +2,16 @@
 Launch TRON-2D in window.
 """
 
-# BUG: even after a ribbon is gone from somewhere, it still registers a hit
+# frameworks
+import asyncio
+import platform
 
 # utils
 from colours import *
 from light_cycle import LightCycle
 from light_cycle_battle import LightCycleBattle
 
-if __name__ == "__main__":
+async def main():
     # window size
     height, width = 600, 600
 
@@ -20,4 +22,10 @@ if __name__ == "__main__":
 
     # run it
     game = LightCycleBattle(width, height, cycles)
-    game.run()
+    await game.run()
+
+if platform.system() == "Emscripten":
+    asyncio.ensure_future(main())
+else:
+    if __name__ == "__main__":
+        asyncio.run(main())

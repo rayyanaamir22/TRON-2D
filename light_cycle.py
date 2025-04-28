@@ -42,13 +42,25 @@ class LightCycle(pygame.sprite.Sprite):
         self.ribbon = deque(maxlen=self.ribbon_length)
         
     
-    def update_position(self):
+    def update_position(self, grid):
         """
-        Update the position of this LightCycle for the next frame.
+        Move the cycle, update the ribbon, and adjust the grid accordingly.
+        Returns the removed position (if any) for collision logic if needed.
         """
+        # if ribbon is full, remove the oldest position from the grid
+        removed = None
+        if len(self.ribbon) == self.ribbon.maxlen:
+            removed = self.ribbon[0]
+            grid.remove_ribbon_position(removed)
+
+        # move and add new position to ribbon and grid
         self.rect.x += self.dx
         self.rect.y += self.dy
-        self.ribbon.append((self.rect.x, self.rect.y))
+        new_pos = (self.rect.x, self.rect.y)
+        self.ribbon.append(new_pos)
+        grid.add_ribbon_position(new_pos)
+        
+        return removed
     
     def change_direction(self, dx, dy):
         """

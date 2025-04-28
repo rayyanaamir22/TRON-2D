@@ -13,7 +13,7 @@ class Grid:
         """
         self.width = width
         self.height = height
-        self.occupied = {}  # hashmap (x, y) tuples -> colours
+        self.occupied = set()  # set of occupied positions
 
     def is_within_bounds(self, position):
         """
@@ -28,17 +28,6 @@ class Grid:
         x, y = position
         return 0 <= x < self.width and 0 <= y < self.height
 
-    def update_ribbon(self, position, colour):
-        """
-        Update the grid by marking a position as occupied with a ribbon.
-        
-        Args:
-            position (tuple): (x, y) coordinates to update.
-            color (tuple): RGB color of the ribbon.
-        """
-        if self.is_within_bounds(position):
-            self.occupied[position] = colour
-
     def is_occupied(self, position):
         """
         Check if a position is occupied or out of bounds.
@@ -52,6 +41,25 @@ class Grid:
         if not self.is_within_bounds(position):
             return True  # out of bounds is treated as occupied (causes crash)
         return position in self.occupied
+
+    def add_ribbon_position(self, position):
+        """
+        Add a position to the occupied set.
+        
+        Args:
+            position (tuple): (x, y) coordinates to add.
+        """
+        if self.is_within_bounds(position):
+            self.occupied.add(position)
+
+    def remove_ribbon_position(self, position):
+        """
+        Remove a position from the occupied set.
+        
+        Args:
+            position (tuple): (x, y) coordinates to remove.
+        """
+        self.occupied.discard(position)  # Use discard to avoid KeyError if position not present
 
     def clear(self):
         """
