@@ -99,7 +99,7 @@ class LightCycleBattle:
         if self.game_over:
             font = pygame.font.Font(None, 36)
             if self.winner:
-                text = font.render(f"{self.winner.colour} wins!", True, (255, 255, 255))
+                text = font.render(f"{self.winner.name} wins!", True, (255, 255, 255))
             else:
                 text = font.render("Draw!", True, (255, 255, 255))
             window.blit(text, (window.get_width() // 2 - text.get_width() // 2,

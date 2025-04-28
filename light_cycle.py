@@ -12,12 +12,13 @@ from colours import *
 class LightCycle(pygame.sprite.Sprite):
     def __init__(
             self, 
+            name: str,
             x, 
             y, 
             initial_dx, 
-            initial_dy, 
+            initial_dy,
             colour: tuple = white,
-            ribbon_length: int = 100
+            ribbon_length: int = 100,
         ) -> None:
         pygame.sprite.Sprite.__init__(self)
         
@@ -34,6 +35,7 @@ class LightCycle(pygame.sprite.Sprite):
         self.dy = initial_dy
 
         # semantics
+        self.name = name
         self.alive = True
         self.points = 0
         self.ribbon_length = ribbon_length

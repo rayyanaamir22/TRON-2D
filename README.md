@@ -11,3 +11,6 @@ To run:
 pip install -r requirements.txt
 python3 main.py
 ```
+
+Game Instructions:
+There are 2 light cycles (arrow keys, WASD) on the grid, starting at opposite ends. They each emit a finite-length light ribbon, which kills anything that collides with it. Force the opponent to collide with the either light ribbon to win the game.
