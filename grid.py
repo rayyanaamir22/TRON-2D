@@ -3,7 +3,7 @@ The Grid. A Digital Frontier.
 """
 
 class Grid:
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int):
         """
         Initialize the grid with a specified width and height.
         
@@ -15,7 +15,7 @@ class Grid:
         self.height = height
         self.occupied = set()  # set of occupied positions
 
-    def is_within_bounds(self, position):
+    def is_within_bounds(self, position: tuple):
         """
         Check if a position is within the grid boundaries.
         
@@ -28,7 +28,7 @@ class Grid:
         x, y = position
         return 0 <= x < self.width and 0 <= y < self.height
 
-    def is_occupied(self, position):
+    def is_occupied(self, position: tuple):
         """
         Check if a position is occupied or out of bounds.
         

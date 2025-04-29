@@ -13,12 +13,12 @@ class LightCycle(pygame.sprite.Sprite):
     def __init__(
             self, 
             name: str,
-            x, 
-            y, 
-            initial_dx, 
-            initial_dy,
+            spawn_x: float, 
+            spawn_y: float, 
+            initial_dx: float, 
+            initial_dy: float,
             colour: tuple = white,
-            ribbon_length: int = 100,
+            ribbon_length: int = 20,
         ) -> None:
         pygame.sprite.Sprite.__init__(self)
         
@@ -29,7 +29,7 @@ class LightCycle(pygame.sprite.Sprite):
 
         # physics
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = x, y
+        self.rect.x, self.rect.y = spawn_x, spawn_y
         self.speed = 10
         self.dx = initial_dx
         self.dy = initial_dy
