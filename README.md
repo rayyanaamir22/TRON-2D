@@ -8,7 +8,7 @@ I made this as warmup for the 3D TRON game I wish to make in `Unity` or `OpenGL`
 
 To run:
 ```
-pip install -r requirements.txt
+pip install -r requirements.txt # just pygame lol
 python3 main.py
 ```
 
